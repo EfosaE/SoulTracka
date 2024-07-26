@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+  email    String @unique
+  role     Role   @default(USER)
+}
+
+enum Role {
+  USER
+  SUPERUSER
+  ADMIN
+}
+
+model OutreachContact {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  name             String   @unique @db.VarChar(255)
+  outreachLocation String
+  phoneNumber      String   @unique @db.VarChar(20) // Adjust the length as needed
+  outreachDateTime DateTime
+  contacted        Boolean  @default(false)
+  groupName        String
+}
+
+model FirstTimer {
+  id          Int     @id @default(autoincrement())
+  name        String
+  address     String?
+  phoneNumber String  @unique @db.VarChar(20) // Adjust the length as needed
+  occupation  String?
+  isStudent   Boolean @default(false)
+}
+
+model Student {
+  id          Int     @id @default(autoincrement())
+  name        String
+  department  String
+  level       Int
+  address     String?
+  phoneNumber String  @unique @db.VarChar(20) // Adjust the length as needed
+  yearOfGrad  Int
+}
