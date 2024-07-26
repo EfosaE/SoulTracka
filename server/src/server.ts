@@ -5,11 +5,7 @@ import prisma from "./utils/prismaClient";
 // Set the port number for the server
 const port = 3000;
 
-// Define a route for the root path ('/')
-app.get('/', (req, res) => {
-  // Send a response to the client
-  res.send('Hello, TypeScript + Node.js + Express!');
-});
+
 
 async function main() {
   console.log('DB connected successfully')

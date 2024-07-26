@@ -13,6 +13,12 @@ app.use(express.json());
 // Use cookie parser middleware
 app.use(cookieParser());
 
+// Define a route for the root path ('/')
+app.get('/', (req, res) => {
+  // Send a response to the client
+  res.send('Hello, TypeScript + Node.js + Express!');
+});
+
 app.use('/api/v1/outreach-contacts', outreachRouter);
 app.use('/api/v1/first-timers', firstTimerRouter);
 app.use('/api/v1/users', userRouter);
