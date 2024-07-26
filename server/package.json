@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "dev": "concurrently \"npm run watch-ts\" \"nodemon dist/server.js\"",
+    "start": "concurrently \"npm run watch-ts\" \"nodemon dist/server.js\"",
     "watch-ts": "tsc -w",
     "migrate": "npx prisma migrate dev --name update",
     "build": "tsc"
