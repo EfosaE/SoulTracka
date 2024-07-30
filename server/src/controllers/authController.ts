@@ -57,6 +57,11 @@ export const login = asyncHandler(
 
     res.status(200).json({
       status: 'success',
+      user: {
+        username: user.username,
+        email: user.email,
+        role: user.role
+      },
       accessToken,
     });
   }
@@ -70,7 +75,7 @@ export const refresh = async (
   const refreshToken: string = req.cookies.refreshCookie;
 
   if (!refreshToken) {
-    return next(new AppError('please login to proceed', 403));
+    return next(new AppError('please login to proceed', 401));
   }
   try {
     const decoded = await verifyToken(

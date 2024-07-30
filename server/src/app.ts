@@ -5,9 +5,27 @@ import globalErrorHandler from './controllers/errorController';
 import firstTimerRouter from './routes/firstTimerRoute';
 import userRouter from './routes/userRoute';
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 // Create an Express application
 const app = express();
+
+// Define the allowed origins
+const allowedOrigins = ['http://localhost:5173'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 
 // Use cookie parser middleware

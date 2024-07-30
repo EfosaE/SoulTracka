@@ -22,7 +22,7 @@ export default asyncHandler(
     console.log({accessToken});
 
     if (!accessToken) {
-      return next(new AppError('please login to proceed', 403));
+      return next(new AppError('please login to proceed', 401));
     }
 
     try {

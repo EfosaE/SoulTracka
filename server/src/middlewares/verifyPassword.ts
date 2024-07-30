@@ -20,13 +20,13 @@ export default asyncHandler(
     });
 
     if (!user) {
-      return next(new AppError('Invalid credentials', 403));
+      return next(new AppError('Invalid credentials', 401));
     }
 
     const isPasswordValid = await comparePassword(user.password, password);
 
     if (!isPasswordValid) {
-      return next(new AppError('Invalid credentials', 403));
+      return next(new AppError('Invalid credentials', 401));
     }
     req.user = user;
     next();
