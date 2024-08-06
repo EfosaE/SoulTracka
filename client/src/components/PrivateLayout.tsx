@@ -22,7 +22,7 @@ const PrivateLayout = () => {
     return <div>Loading...</div>; // Or a more sophisticated loading indicator
   }
 
-  return token ? (
+  return token && data ? (
     <Outlet />
   ) : (
     <Navigate to='/login' state={{ from: location }} replace />

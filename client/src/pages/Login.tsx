@@ -1,37 +1,77 @@
-import { useDispatch } from "react-redux";
-import { LoginRequest, useLoginMutation } from "../redux/api/authApiSlice";
-import { setUser, setToken } from "../redux/features/authSlice";
-import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from 'react-redux';
+import { LoginRequest, useLoginMutation } from '../redux/api/authApiSlice';
+import { setUser, setToken } from '../redux/features/authSlice';
+import { Form, useNavigate } from 'react-router-dom';
+import SubmitBtn from '../components/SubmitBtn';
+import { useState } from 'react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 const Login = () => {
-  const [login] = useLoginMutation();
-  const dispatch = useDispatch()
+  const [error, setError] = useState<string | null>(null);
+  const [login, { isLoading, isError }] = useLoginMutation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-    const handleLogin = async (credentials:LoginRequest) => {
-      try {
-        const response = await login(credentials).unwrap();
-        const user = response.user
-          const accessToken = response.accessToken
-        dispatch(setUser(user))
-        dispatch(setToken(accessToken));
-        console.log('Login successful:', response);
-        navigate('/');
-      } catch (error) {
-        console.error('Failed to login:', error);
-      }
-    };
-  return (
-    <div>
-      {/* Form for user to input credentials */}
-      <button
-        onClick={() =>
-          handleLogin({ email: 'tosin@soul.io', password: '12wwwed3' })
-        }>
-        Login
-      </button>
-    </div>
-  );
-}
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    console.log(formData);
+    const formDataObject = Object.fromEntries(formData.entries());
+    console.log(formDataObject);
+    try {
+      const response = await login(formDataObject).unwrap();
+      console.log('Login successful:', response);
+      const user = response.user;
+      const accessToken = response.accessToken;
+      dispatch(setUser(user));
+      dispatch(setToken(accessToken));
 
-export default Login
+      navigate('/');
+    } catch (error) {
+      const typedError = error as FetchBaseQueryError;
+      if (
+        typedError.data &&
+        typeof typedError.data === 'object' &&
+        'message' in typedError.data
+      ) {
+        setError((typedError.data as { message: string }).message);
+      } else {
+        console.log('An unexpected error occurred');
+      }
+    }
+  };
+  return (
+    <section className='h-screen flex items-center justify-center '>
+      <Form
+        className='flex flex-col  w-fit  px-4 py-8 rounded-lg items-center libre shadow-lg'
+        onSubmit={handleLogin}>
+        <h1 className='libre font-bold text-primary text-3xl'> Soul Tracka</h1>
+        <div className='flex flex-col gap-4 my-4'>
+          <div>
+            <label htmlFor='email'>Email</label>
+            <input
+              type='email'
+              name='email'
+              placeholder='enter your email'
+              className='input-primary w-full  input input-sm'
+            />
+          </div>
+          <div>
+            <label htmlFor='password'>Password</label>
+            <input
+              type='password'
+              name='password'
+              className='input-primary w-full  input input-sm'
+            />
+          </div>
+        </div>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        <SubmitBtn text={'Submit'} disabled={isLoading} />
+
+        <p>Already have an account</p>
+      </Form>
+    </section>
+  );
+};
+
+export default Login;

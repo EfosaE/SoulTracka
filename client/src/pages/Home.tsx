@@ -21,7 +21,15 @@ const Home = () => {
           </button>
         </div>
       ) : (
-        <div>Welcome to Soul Tracka!</div>
+        <div>
+          <p>Welcome to Soul Tracka! </p>
+          <button
+            onClick={() => {
+              dispatch(logOut());
+            }}>
+            log out
+          </button>
+        </div>
       )}
     </div>
   );

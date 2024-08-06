@@ -15,9 +15,10 @@ interface GetUserResponse {
   status?: string;
   user: unknown;
 }
+const baseURL = import.meta.env.VITE_BASE_SERVER_URL;
 // Define the base query function
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:3000/api/v1',
+  baseUrl: `${baseURL}/api/v1`,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;

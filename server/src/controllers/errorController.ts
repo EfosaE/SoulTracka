@@ -7,7 +7,8 @@ const handlePrismaError = (err: any) => {
   switch (err.code) {
     case 'P2002':
       // handling duplicate key errors
-      return new AppError(`Duplicate field value: ${err.meta.target}`, 400);
+      // return new AppError(`Duplicate field value: ${err.meta.target}`, 400);
+      return new AppError(`This ${err.meta.target} is taken`, 400);
     case 'P2014':
       // handling invalid id errors
       return new AppError(`Invalid ID: ${err.meta.target}`, 400);

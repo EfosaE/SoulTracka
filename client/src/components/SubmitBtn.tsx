@@ -1,19 +1,19 @@
-import { useNavigation } from 'react-router-dom';
 
 
+interface Props {
+  text: string,
+  disabled: boolean
+}
 
-const SubmitBtn = ({ text }:{text:string}) => {
-  const navigation = useNavigation();
-  
-  const isSubmitting = navigation.state === 'submitting';
+const SubmitBtn = ({ text, disabled }: Props) => {
 
   return (
     <button
       type='submit'
       className='btn btn-primary btn-block'
-      disabled={isSubmitting}
+      disabled={disabled}
     >
-      {isSubmitting ? (
+      {disabled ? (
         <>
           <span className='loading loading-spinner'></span>
           sending...
