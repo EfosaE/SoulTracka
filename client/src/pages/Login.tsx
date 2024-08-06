@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { LoginRequest, useLoginMutation } from '../redux/api/authApiSlice';
+import { useLoginMutation } from '../redux/api/authApiSlice';
 import { setUser, setToken } from '../redux/features/authSlice';
 import { Form, useNavigate } from 'react-router-dom';
 import SubmitBtn from '../components/SubmitBtn';
@@ -8,7 +8,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
-  const [login, { isLoading, isError }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Navigate } from 'react-router-dom';
 import { logOut } from '../redux/features/authSlice';
 
 const Home = () => {
