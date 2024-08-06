@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { LoginRequest, useLoginMutation } from "../redux/api/authApiSlice";
-import { setCredentials } from "../redux/features/authSlice";
+import { setUser, setToken } from "../redux/features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -13,9 +13,10 @@ const Login = () => {
         const response = await login(credentials).unwrap();
         const user = response.user
           const accessToken = response.accessToken
-       dispatch(setCredentials({user, accessToken}))
+        dispatch(setUser(user))
+        dispatch(setToken(accessToken));
         console.log('Login successful:', response);
-        navigate('/home');
+        navigate('/');
       } catch (error) {
         console.error('Failed to login:', error);
       }

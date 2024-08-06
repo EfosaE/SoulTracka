@@ -1,12 +1,20 @@
 import {
+  BaseQueryApi,
   createApi,
   FetchArgs,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 
 import { RootState } from './store';
-import { logOut, setCredentials } from './features/authSlice';
+import { logOut, setToken, setUser } from './features/authSlice';
 
+interface RefreshTokenResponse {
+  accessToken: string;
+}
+interface GetUserResponse {
+  status?: string;
+  user: unknown;
+}
 // Define the base query function
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3000/api/v1',
@@ -21,21 +29,34 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Define the base query function with re-authentication
+// Define the base query function with re-authentication when token expires and user refreshes
 const baseQueryWithReauth = async (
   args: string | FetchArgs,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  api: any,
+  api: BaseQueryApi,
   extraOptions: object
 ) => {
   let result = await baseQuery(args, api, extraOptions);
+  console.log('result for no error', result);
 
   if (result?.error?.status === 403) {
     console.log('sending refresh token');
-    const refreshResult = await baseQuery('/users/refresh', api, extraOptions);
-    if (refreshResult?.data) {
-      const user = (api.getState() as RootState).auth.user;
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
+    const refreshedAccessToken = (await baseQuery(
+      '/users/refresh',
+      api,
+      extraOptions
+    )) as { data: RefreshTokenResponse };
+    console.log('accessToken', refreshedAccessToken);
+    if (refreshedAccessToken?.data) {
+      api.dispatch(setToken(refreshedAccessToken.data.accessToken));
+      const response = (await baseQuery(
+        '/users/profile',
+        api,
+        extraOptions
+      )) as {
+        data: GetUserResponse;
+      };
+      console.log('user', response.data.user);
+      api.dispatch(setUser(response.data.user));
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

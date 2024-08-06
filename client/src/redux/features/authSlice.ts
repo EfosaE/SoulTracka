@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const getTokenFromLocalStorage = () => {
+  return localStorage.getItem('token') || null;
+};
+
 interface User {
   username: string;
- email:string
+  email: string;
 }
 
 export interface AuthState {
@@ -12,25 +16,30 @@ export interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: getTokenFromLocalStorage(),
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      const { user, accessToken } = action.payload;
+    setUser: (state, action) => {
+      const user = action.payload;
       state.user = user;
+    },
+    setToken: (state, action) => {
+      const accessToken = action.payload;
       state.token = accessToken;
+      localStorage.setItem('token', accessToken)
     },
     logOut: (state) => {
       state.user = null;
       state.token = null;
+      localStorage.removeItem('token')
     },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setUser, setToken, logOut } = authSlice.actions;
 
 export default authSlice.reducer;
