@@ -54,6 +54,7 @@ const Login = () => {
               name='email'
               placeholder='enter your email'
               className='input-primary w-full  input input-sm'
+              required
             />
           </div>
           <div>
@@ -62,6 +63,7 @@ const Login = () => {
               type='password'
               name='password'
               className='input-primary w-full  input input-sm'
+              required
             />
           </div>
         </div>

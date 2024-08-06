@@ -61,6 +61,7 @@ const Signup = () => {
               placeholder='enter your name'
               className='input-primary w-full  input input-sm'
               name='username'
+              required
             />
           </div>
           <div>
@@ -70,6 +71,7 @@ const Signup = () => {
               name='email'
               placeholder='enter your email'
               className='input-primary w-full  input input-sm'
+              required
             />
           </div>
           <div>
@@ -78,6 +80,7 @@ const Signup = () => {
               type='password'
               name='password'
               className='input-primary w-full  input input-sm'
+              required
             />
           </div>
           <div>
@@ -86,6 +89,7 @@ const Signup = () => {
               type='password'
               name='confirmPassword'
               className='input-primary w-full  input input-sm'
+              required
             />
           </div>
         </div>
