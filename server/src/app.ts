@@ -11,7 +11,10 @@ import cors from 'cors'
 const app = express();
 
 // Define the allowed origins
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://soultracka.netlify.app',
+];
 
 app.use(cors({
   origin: function (origin, callback) {
