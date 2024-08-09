@@ -1,4 +1,4 @@
-import { Form, useNavigate } from 'react-router-dom';
+import { Form, Link, useNavigate } from 'react-router-dom';
 import SubmitBtn from '../components/SubmitBtn';
 import { useState } from 'react';
 import { useSignUpMutation } from '../redux/api/authApiSlice';
@@ -70,7 +70,7 @@ const Signup = () => {
               type='email'
               name='email'
               placeholder='enter your email'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input '
               required
             />
           </div>
@@ -79,7 +79,7 @@ const Signup = () => {
             <input
               type='password'
               name='password'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input'
               required
             />
           </div>
@@ -88,7 +88,7 @@ const Signup = () => {
             <input
               type='password'
               name='confirmPassword'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input '
               required
             />
           </div>
@@ -96,7 +96,7 @@ const Signup = () => {
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <SubmitBtn text={'Submit'} disabled={isLoading} />
 
-        <p>Already have an account</p>
+        <p className='text-sm mt-2'>Already have an account? <Link to='/login' className='text-primary'>Sign In</Link></p>
       </Form>
     </section>
   );

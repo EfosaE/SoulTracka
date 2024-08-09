@@ -3,6 +3,12 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import PrivateLayout from './components/PrivateLayout';
 import Home from './pages/Home';
+import CommonUi from './components/CommonUi';
+import OutreachContacts from './pages/OutreachContacts';
+import FirstTimer from './pages/FirstTimer';
+import Reports from './pages/Reports';
+import Messages from './pages/Messages';
+import Settings from './pages/Settings';
 
 const router = createBrowserRouter([
   {
@@ -17,9 +23,34 @@ const router = createBrowserRouter([
     element: <PrivateLayout />,
     children: [
       {
-        index: true,
-        path: '/',
-        element: <Home />,
+        element: <CommonUi />,
+        children: [
+          {
+            index: true,
+            path: '/',
+            element: <Home />,
+          },
+          {
+            path: '/outreach-contacts',
+            element: <OutreachContacts />,
+          },
+          {
+            path: '/first-timers',
+            element: <FirstTimer />,
+          },
+          {
+            path: '/reports',
+            element: <Reports />,
+          },
+          {
+            path: '/messages',
+            element: <Messages />,
+          },
+          {
+            path: '/settings',
+            element: <Settings />,
+          },
+        ],
       },
     ],
   },

@@ -18,3 +18,10 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+/* this var is from daisy ui */
+/* .active, .active div {
+  color: oklch(var(--p))
+} */
+ .active, .active div {
+  color: white;
+ }

@@ -19,7 +19,11 @@ const PrivateLayout = () => {
 
   const location = useLocation();
   if (isLoading) {
-    return <div>Loading...</div>; // Or a more sophisticated loading indicator
+    return (
+      <div className='h-screen w-full flex items-center justify-center'>
+        <span className='loading loading-spinner text-primary'></span>;
+      </div>
+    ); // Or a more sophisticated loading indicator
   }
 
   return token && data ? (

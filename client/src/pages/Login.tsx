@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../redux/api/authApiSlice';
 import { setUser, setToken } from '../redux/features/authSlice';
-import { Form, useNavigate } from 'react-router-dom';
+import { Form, Link, useNavigate } from 'react-router-dom';
 import SubmitBtn from '../components/SubmitBtn';
 import { useState } from 'react';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
@@ -53,7 +53,7 @@ const Login = () => {
               type='email'
               name='email'
               placeholder='enter your email'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input '
               required
             />
           </div>
@@ -62,7 +62,7 @@ const Login = () => {
             <input
               type='password'
               name='password'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input '
               required
             />
           </div>
@@ -70,7 +70,9 @@ const Login = () => {
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <SubmitBtn text={'Submit'} disabled={isLoading} />
 
-        <p>Already have an account</p>
+        <p className='text-sm libre mt-2'>
+          No account yet? <Link to='/signup' className='text-primary'>Sign Up</Link>
+        </p>
       </Form>
     </section>
   );
