@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <header
-      className='h-fit py-6 mb-4 exo sticky top-0 z-40 shadow-lg'
+      className='h-fit py-6 mb-4 exo sticky bg-base-100 top-0 z-40 shadow-lg'
       ref={headerRef}>
       <div className='container  flex items-center justify-between capitalize'>
         <div className='md:hidden'>

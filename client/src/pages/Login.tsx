@@ -21,12 +21,14 @@ const Login = () => {
     try {
       const response = await login(formDataObject).unwrap();
       console.log('Login successful:', response);
-      const user = response.user;
-      const accessToken = response.accessToken;
-      dispatch(setUser(user));
-      dispatch(setToken(accessToken));
+      if (response.status === 'success') {
+        const user = response.user;
+        const accessToken = response.accessToken;
+        dispatch(setUser(user));
+        dispatch(setToken(accessToken));
 
-      navigate('/');
+        navigate('/');
+      }
     } catch (error) {
       const typedError = error as FetchBaseQueryError;
       if (
@@ -71,7 +73,10 @@ const Login = () => {
         <SubmitBtn text={'Submit'} disabled={isLoading} />
 
         <p className='text-sm libre mt-2'>
-          No account yet? <Link to='/signup' className='text-primary'>Sign Up</Link>
+          No account yet?{' '}
+          <Link to='/signup' className='text-primary'>
+            Sign Up
+          </Link>
         </p>
       </Form>
     </section>
