@@ -53,6 +53,7 @@ export const login = asyncHandler(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
     });
 
     res.status(200).json({

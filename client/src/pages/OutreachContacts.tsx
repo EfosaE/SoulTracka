@@ -84,6 +84,17 @@ const OutreachContacts = () => {
   });
 
   console.log(outreachContact);
+
+  if (isLoading) {
+    return (
+      <div className='flex w-52 flex-col gap-4'>
+        <div className='skeleton h-32 w-full'></div>
+        <div className='skeleton h-4 w-28'></div>
+        <div className='skeleton h-4 w-full'></div>
+        <div className='skeleton h-4 w-full'></div>
+      </div>
+    );
+  }
   return (
     <section className='w-full'>
       <div className='overflow-scroll h-[500px]'>
@@ -104,7 +115,7 @@ const OutreachContacts = () => {
               </tr>
             ))}
           </thead>
-          <tbody>
+          <tbody className='capitalize'>
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (

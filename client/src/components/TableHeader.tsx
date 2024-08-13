@@ -2,7 +2,11 @@ import React from 'react'
 
 const TableHeader = () => {
   return (
-    <div>TableHeader</div>
+      <div className=''>
+          <div>
+              <select name="" id=""></select>
+          </div> 
+    </div>
   )
 }
 
