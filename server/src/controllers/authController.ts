@@ -50,7 +50,7 @@ export const login = asyncHandler(
     const accessToken = createAccessToken(user.id);
 
     res.cookie('refreshCookie', refreshToken, {
-      maxAge: 1000 * 60 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24 * 3,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });

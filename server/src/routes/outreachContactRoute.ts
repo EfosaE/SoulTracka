@@ -3,7 +3,7 @@ import {
   createContact,
   deleteAll,
   getAllContacts,
-  getByID,
+  getContactByID,
   updateContact,
 } from '../controllers/outreachController';
 import validateJWT from '../middlewares/validateJWT';
@@ -17,6 +17,6 @@ outreachRouter
   .post(createContact)
   .delete(deleteAll);
 // outreachRouter.route('/create-many').post(createManyContact)
-outreachRouter.route('/:id').get(getByID).delete().patch(updateContact);
+outreachRouter.route('/:id').get(getContactByID).delete().patch(updateContact);
 
 export default outreachRouter;

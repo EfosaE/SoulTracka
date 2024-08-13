@@ -21,7 +21,7 @@ const PrivateLayout = () => {
   if (isLoading) {
     return (
       <div className='h-screen w-full flex items-center justify-center'>
-        <span className='loading loading-spinner text-primary'></span>;
+        <span className='loading loading-spinner text-primary'></span>
       </div>
     ); // Or a more sophisticated loading indicator
   }

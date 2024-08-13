@@ -60,7 +60,7 @@ export const getAllContacts = asyncHandler(
     });
   }
 );
-export const getByID = asyncHandler(
+export const getContactByID = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id);
 
