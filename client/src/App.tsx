@@ -9,6 +9,8 @@ import FirstTimer from './pages/FirstTimer';
 import Reports from './pages/Reports';
 import Messages from './pages/Messages';
 import Settings from './pages/Settings';
+import { ToastContainer } from 'react-toastify';
+
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+      <ToastContainer theme='light'/>
       <RouterProvider router={router} />
     </>
   );

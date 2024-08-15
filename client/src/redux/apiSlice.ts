@@ -15,8 +15,15 @@ interface GetUserResponse {
   status?: string;
   user: unknown;
 }
-const baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+let baseURL 
+
+if (import.meta.env.VITE_ENVIRONMENT === 'production') {
+  baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+} else {
+  baseURL = import.meta.env.VITE_BASE_LOCAL_SERVER_URL;
+}
 // Define the base query function
+console.log(baseURL)
 const baseQuery = fetchBaseQuery({
   baseUrl: `${baseURL}/api/v1`,
   credentials: 'include',
@@ -70,6 +77,7 @@ const baseQueryWithReauth = async (
 // Create the API slice
 export const apiSlice = createApi({
   reducerPath: 'api',
+  tagTypes: ['Contact'], // Define the tag types here
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
 });

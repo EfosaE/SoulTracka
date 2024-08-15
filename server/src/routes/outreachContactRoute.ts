@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createContact,
   deleteAll,
+  deleteContactByID,
   getAllContacts,
   getContactByID,
   updateContact,
@@ -17,6 +18,6 @@ outreachRouter
   .post(createContact)
   .delete(deleteAll);
 // outreachRouter.route('/create-many').post(createManyContact)
-outreachRouter.route('/:id').get(getContactByID).delete().patch(updateContact);
+outreachRouter.route('/:id').get(getContactByID).delete(deleteContactByID).patch(updateContact);
 
 export default outreachRouter;

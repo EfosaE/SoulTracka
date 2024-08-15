@@ -2,7 +2,7 @@
 export function parseUserDateInput(input: string): Date {
   const [datePart, timePart] = input.split(' ');
 
-  return new Date(`${datePart}T${timePart}:00Z`);
+  return new Date(`${datePart}T${timePart}Z`);
 }
 
 // Ensuring type definition on input from req.query

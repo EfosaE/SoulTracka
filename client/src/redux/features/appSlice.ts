@@ -33,10 +33,10 @@ const appSlice = createSlice({
     },
     addHeaderTitle: (state, action) => {
       state.headerTitle = action.payload;
-    },
+    }
   },
 });
 
-export const { closeSidebar, openSidebar, toggleExpanded, addHeaderTitle, toggleTheme } = appSlice.actions;
+export const { closeSidebar, openSidebar, toggleExpanded, addHeaderTitle, toggleTheme} = appSlice.actions;
 
 export default appSlice.reducer;

@@ -15,6 +15,9 @@ const handlePrismaError = (err: any) => {
     case 'P2003':
       // handling invalid data errors
       return new AppError(`Invalid input data: ${err.meta.target}`, 400);
+    case 'P2025':
+      // handling no records errors
+      return new AppError(`${err.meta.cause}`, 500);
     default:
       // handling all other errors
       return new AppError(`Something went wrong: ${err.message}`, 500);

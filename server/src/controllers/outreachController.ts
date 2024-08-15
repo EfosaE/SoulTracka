@@ -78,7 +78,28 @@ export const getContactByID = asyncHandler(
     });
   }
 );
+export const deleteContactByID = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = Number(req.params.id);
 
+    // Attempt to delete the contact
+    const contact = await prisma.outreachContact.delete({
+      where: {
+        id,
+      },
+    });
+
+    // If the contact doesn't exist, it will throw an error, but you can handle it more gracefully
+    if (!contact) {
+      return next(new AppError('No contact found with this ID', 404));
+    }
+
+    return res.status(204).json({
+      status: 'success',
+      message: 'Contact deleted successfully',
+    });
+  }
+);
 export const updateContact = asyncHandler(async (
   req: Request,
   res: Response,
