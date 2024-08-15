@@ -9,7 +9,7 @@ type ModalProps = {
 
 const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
   ({ closeModal }, ref) => {
-    const [addContact, { isLoading, isError }] = useAddContactMutation();
+    const [addContact, { isLoading}] = useAddContactMutation();
       const [error, setError] = useState<string | null>(null);
     
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
