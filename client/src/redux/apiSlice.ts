@@ -15,13 +15,12 @@ interface GetUserResponse {
   status?: string;
   user: unknown;
 }
-let baseURL 
 
-if (import.meta.env.VITE_ENVIRONMENT === 'production') {
-  baseURL = import.meta.env.VITE_BASE_SERVER_URL;
-} else {
-  baseURL = import.meta.env.VITE_BASE_LOCAL_SERVER_URL;
-}
+let baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+
+if (import.meta.env.VITE_ENVIRONMENT === 'development') {
+   baseURL = import.meta.env.VITE_BASE_LOCAL_SERVER_URL;
+} 
 // Define the base query function
 console.log(baseURL)
 const baseQuery = fetchBaseQuery({
