@@ -59,8 +59,18 @@ const Signup = () => {
             <input
               type='text'
               placeholder='enter your name'
-              className='input-primary w-full  input input-sm'
+              className='input-primary w-full  input'
               name='username'
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor='groupName'>Group Name</label>
+            <input
+              type='text'
+              placeholder='enter your group name'
+              className='input-primary w-full  input'
+              name='groupName'
               required
             />
           </div>
@@ -80,6 +90,7 @@ const Signup = () => {
               type='password'
               name='password'
               className='input-primary w-full  input'
+              autoComplete='password'
               required
             />
           </div>
@@ -89,6 +100,7 @@ const Signup = () => {
               type='password'
               name='confirmPassword'
               className='input-primary w-full  input '
+              autoComplete='password'
               required
             />
           </div>
@@ -96,7 +108,12 @@ const Signup = () => {
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <SubmitBtn text={'Submit'} disabled={isLoading} />
 
-        <p className='text-sm mt-2'>Already have an account? <Link to='/login' className='text-primary'>Sign In</Link></p>
+        <p className='text-sm mt-2'>
+          Already have an account?{' '}
+          <Link to='/login' className='text-primary'>
+            Sign In
+          </Link>
+        </p>
       </Form>
     </section>
   );
