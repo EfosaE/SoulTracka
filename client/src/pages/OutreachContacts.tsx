@@ -99,6 +99,7 @@ const OutreachContacts = () => {
       <TableHeader
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        table={table}
       />
       <div className='overflow-scroll h-[540px]'>
         <table className='table table-zebra text-center overflow-y-scroll'>
