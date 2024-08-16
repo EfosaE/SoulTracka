@@ -25,7 +25,7 @@ export const getAllContacts = asyncHandler(
       };
     }
     // Type assertion and narrowing for name
-    let nameString: string | undefined;
+    let nameString: string | undefined
     nameString = parseString(name);
 
     // Type assertion and narrowing for groupName

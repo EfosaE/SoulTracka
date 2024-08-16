@@ -15,6 +15,7 @@ export default asyncHandler(
         username: true,
         password: true,
         email: true,
+        groupName:true,
         role: true,
       },
     });

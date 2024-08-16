@@ -5,7 +5,7 @@ export function parseUserDateInput(input: string): Date {
   return new Date(`${datePart}T${timePart}Z`);
 }
 
-// Ensuring type definition on input from req.query
+// Ensuring type definition on input from req.query but my client side (FE) would most likely parse it also before sending it here
 export function parseString(value: unknown): string | undefined {
   if (typeof value === 'string') {
     return value;
@@ -13,9 +13,9 @@ export function parseString(value: unknown): string | undefined {
   if (Array.isArray(value)) {
     return value[0];
   }
-  return undefined;
+
 }
-// Ensuring type definition on input from req.query
+// Ensuring type definition on input from req.query but my client side (FE) would most likely parse it also before sending it here
 export function parseBoolean(value: unknown): boolean | undefined {
   if (value === 'true') {
     return true;

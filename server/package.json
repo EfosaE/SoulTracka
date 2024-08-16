@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run watch-ts\" \"nodemon dist/server.js\"",
     "watch-ts": "tsc -w",
-    "migrate": "npx prisma migrate dev --name update",
+    "migrate": "npx prisma migrate dev",
     "build": "tsc"
   },
   "keywords": [],
