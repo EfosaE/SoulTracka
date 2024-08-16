@@ -20,6 +20,7 @@ import SkeletonLoader from '../components/SkeletonLoader';
 const OutreachContacts = () => {
   const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
   const [deleteContact] = useDeleteContactByIDMutation();
+
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
     pageSize: 10, //default page size
@@ -70,7 +71,7 @@ const OutreachContacts = () => {
     return column;
   });
 
- const table = useReactTable({
+  const table = useReactTable({
     data,
     columns: actionColumns,
     onPaginationChange: setPagination, //update the pagination state when internal APIs mutate the pagination state
@@ -91,7 +92,7 @@ const OutreachContacts = () => {
 
   if (isLoading) {
     //Skeleton loader
-   <SkeletonLoader/>
+    <SkeletonLoader />;
   }
   return (
     <section className='w-full transition'>

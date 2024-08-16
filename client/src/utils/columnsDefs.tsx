@@ -16,7 +16,9 @@ export type Contact = {
 const columnHelper = createColumnHelper<Contact>();
 
 export const columns = [
-  columnHelper.accessor('id', {
+  columnHelper.accessor((_row, index) => index + 1, {
+    id: 'serialNumber',
+    header: 'S/N',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
@@ -117,7 +119,7 @@ export const columns = [
     //     </button>
     //     <button onClick={() => console.log(info.row.original.id)}>
     //       <RiDeleteBinLine className='text-error text-lg' />
-          
+
     //     </button>
     //   </div>
     // ),

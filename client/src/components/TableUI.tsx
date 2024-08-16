@@ -55,46 +55,35 @@ export const TableHeader = ({ globalFilter, setGlobalFilter }: HeaderProps) => {
 };
 
 export const TableFooter = ({ table }: TableFooterProps) => {
+  const pageCount = table.getPageCount();
+
   return (
-    <div className='flex justify-between p-4 items-center'>
-      <button
-        onClick={() => table.firstPage()}
-        disabled={!table.getCanPreviousPage()}
-        className='btn btn-accent capitalize'>
-        first page
-      </button>
-      <button
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-        className='btn capitalize'>
-        prev
-      </button>
-      <button
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-        className='btn capitalize'>
-        next
-      </button>
-      <button
-        onClick={() => table.lastPage()}
-        disabled={!table.getCanNextPage()}
-        className='btn btn-accent capitalize'>
-        last page
-      </button>
+    <div className='flex items-center justify-between py-1'>
       <label htmlFor=''>
-        <span>Page Size</span>
         <select
           value={table.getState().pagination.pageSize}
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}>
-          {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+          {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               {pageSize}
             </option>
           ))}
         </select>
       </label>
+      <div className='join mx-auto'>
+        {Array.from({ length: pageCount }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => table.setPageIndex(index)}
+            className={`btn join-item ${
+              table.getState().pagination.pageIndex === index && 'btn-accent'
+            }`}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
