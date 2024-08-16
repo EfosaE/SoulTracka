@@ -8,16 +8,22 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { columns, Contact } from '../utils/columnsDefs';
 import { TableFooter, TableHeader } from '../components/TableUI';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import SkeletonLoader from '../components/SkeletonLoader';
 
 const OutreachContacts = () => {
   const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
   const [deleteContact] = useDeleteContactByIDMutation();
+  const [pagination, setPagination] = useState({
+    pageIndex: 0, //initial page index
+    pageSize: 10, //default page size
+  });
   // Set up state to hold the table data
   const [data, setData] = useState<Contact[]>([]);
   const [globalFilter, setGlobalFilter] = useState('');
@@ -64,11 +70,13 @@ const OutreachContacts = () => {
     return column;
   });
 
-  const table = useReactTable({
+ const table = useReactTable({
     data,
     columns: actionColumns,
+    onPaginationChange: setPagination, //update the pagination state when internal APIs mutate the pagination state
     state: {
       globalFilter,
+      pagination,
     },
     globalFilterFn: (row, _, filterValue) => {
       // Check all properties of the row's original object
@@ -77,19 +85,13 @@ const OutreachContacts = () => {
       );
     },
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
 
   if (isLoading) {
     //Skeleton loader
-    return (
-      <div className='flex flex-col gap-4 w-full'>
-        <div className='skeleton h-32 w-full'></div>
-        <div className='skeleton h-4 w-28'></div>
-        <div className='skeleton h-4 w-full'></div>
-        <div className='skeleton h-4 w-full'></div>
-      </div>
-    );
+   <SkeletonLoader/>
   }
   return (
     <section className='w-full transition'>
@@ -128,7 +130,7 @@ const OutreachContacts = () => {
           </tbody>
         </table>
       </div>
-      <TableFooter />
+      <TableFooter table={table} />
     </section>
   );
 };

@@ -52,7 +52,10 @@ const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
     return (
       <dialog id='' className='modal' ref={ref}>
         <div className='modal-box'>
-          <h3 className='text-lg capitalize'> create a new contact</h3>
+          <div className='flex justify-between items-center'>
+            <h3 className='text-lg capitalize'> create a new contact</h3>
+            <button className='btn btn-neutral' onClick={()=>{closeModal()}}>Close</button>
+          </div>
 
           <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
             <div className='flex flex-col gap-2'>
