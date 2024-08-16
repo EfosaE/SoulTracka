@@ -6,6 +6,7 @@ import firstTimerRouter from './routes/firstTimerRoute';
 import userRouter from './routes/userRoute';
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import rateLimit from 'express-rate-limit';
 
 // Create an Express application
 const app = express();
@@ -28,7 +29,14 @@ app.use(cors({
   },
   credentials: true,
 }));
-
+// Define the rate limiter middleware
+const limiter = rateLimit({
+  max: 50, // Limit each IP to 10 requests per `window` (here, per hour)
+  windowMs:  60 * 60 * 1000, // 1 hour window
+  message: 'Too many requests, please try again later.', // Message sent when limit is reached
+});
+// Apply the rate limiter to all requests starting with /api/
+app.use('/api', limiter);
 app.use(express.json());
 
 // Use cookie parser middleware
