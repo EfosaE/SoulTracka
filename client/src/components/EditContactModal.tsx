@@ -4,6 +4,7 @@ import { useUpdateContactMutation } from '../redux/api/outreachApiSlice';
 
 import { Contact } from '../utils/columnsDefs';
 import { toast } from 'react-toastify';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 type ModalProps = {
   contact: Contact | null;
@@ -86,12 +87,21 @@ const EditContactModal = forwardRef<HTMLDialogElement, ModalProps>(
       console.log(updatedFormData);
 
       try {
-        const response = await updateContact(updatedFormData).unwrap()
-        console.log(response)
-        toast.success('Contact Editted Successfully')
-        closeModal()
+        const response = await updateContact(updatedFormData).unwrap();
+        console.log(response);
+        toast.success('Contact Editted Successfully');
+        closeModal();
       } catch (error) {
-        console.log(error)
+        const typedError = error as FetchBaseQueryError;
+        if (
+          typedError.data &&
+          typeof typedError.data === 'object' &&
+          'message' in typedError.data
+        ) {
+          setError((typedError.data as { message: string }).message);
+        } else {
+          console.log('An unexpected error occurred');
+        }
       }
     }
 
