@@ -19,7 +19,6 @@ import TableComponent from '../components/TableComponent';
 
 import EditContactModal from '../components/EditContactModal';
 
-
 const OutreachContacts = () => {
   const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
@@ -110,13 +109,6 @@ const OutreachContacts = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) {
-    //Skeleton loader
-    <>
-      <div>loading...</div>
-      <SkeletonLoader />;
-    </>;
-  }
   return (
     <section className='w-full transition'>
       <TableHeader
@@ -124,7 +116,7 @@ const OutreachContacts = () => {
         setGlobalFilter={setGlobalFilter}
         table={table}
       />
-      <TableComponent table={table} />
+      {isLoading ? <SkeletonLoader /> : <TableComponent table={table} />}
 
       <TableFooter table={table} />
       <EditContactModal
