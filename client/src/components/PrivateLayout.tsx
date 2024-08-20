@@ -7,20 +7,16 @@ import { setUser } from '../redux/features/authSlice';
 
 const PrivateLayout = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector((store: RootState) => store.auth);
+  const location = useLocation();
+  const { token, user } = useSelector((store: RootState) => store.auth);
 
-  const { data, isLoading } = useGetProfileQuery('', { skip: !token });
+  const { data, isLoading, isSuccess } = useGetProfileQuery('', {
+    skip: !token,
+  });
 
   console.log(token);
-  
+  console.log(user);
 
-  useEffect(() => {
-    console.log('privatelayout', data);
-    dispatch(setUser(data?.user));
-
-  }, [data, dispatch]);
-
-  const location = useLocation();
   if (isLoading) {
     return (
       <div className='h-screen w-full flex items-center justify-center'>
@@ -28,12 +24,17 @@ const PrivateLayout = () => {
       </div>
     ); // Or a more sophisticated loading indicator
   }
+  console.log(isLoading)
+  console.log(isSuccess);
 
-  return token && data ? (
-    <Outlet />
-  ) : (
-    <Navigate to='/login' state={{ from: location }} replace />
-  );
+  if (isSuccess) {
+    dispatch(setUser(data?.user));
+    return <Outlet />;
+  }
+
+    return <Navigate to='/login' state={{ from: location }} replace />;
+ 
+
 };
 
 export default PrivateLayout;
