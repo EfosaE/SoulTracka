@@ -2,7 +2,6 @@ import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useGetProfileQuery } from '../redux/api/authApiSlice';
-import { useEffect } from 'react';
 import { setUser } from '../redux/features/authSlice';
 
 const PrivateLayout = () => {
