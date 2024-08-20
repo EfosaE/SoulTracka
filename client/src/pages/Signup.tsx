@@ -28,11 +28,13 @@ const Signup = () => {
     const { confirmPassword, ...newFormObject } = formDataObject;
 
     console.log(newFormObject);
+    // .unwrap() does the same thing as response.json()
     // note to self rtk query with TS is a whole lot abeg
     try {
       const response = await signup(newFormObject).unwrap();
+
       if (response.status === 'success') {
-        navigate('/login')
+        navigate('/login');
       }
     } catch (error) {
       const typedError = error as FetchBaseQueryError;
@@ -89,8 +91,8 @@ const Signup = () => {
             <input
               type='password'
               name='password'
+              placeholder='enter your password'
               className='input-primary w-full  input'
-              autoComplete='password'
               required
             />
           </div>
@@ -99,8 +101,8 @@ const Signup = () => {
             <input
               type='password'
               name='confirmPassword'
+              placeholder='confirm your password'
               className='input-primary w-full  input '
-              autoComplete='password'
               required
             />
           </div>

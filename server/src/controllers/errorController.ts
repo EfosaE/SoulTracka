@@ -5,6 +5,8 @@ import { Prisma } from '@prisma/client';
 
 const handlePrismaError = (err: any) => {
   switch (err.code) {
+    case 'P1001':
+      return new AppError(`The server is down please try again later`, 500);
     case 'P2002':
       // handling duplicate key errors
       // return new AppError(`Duplicate field value: ${err.meta.target}`, 400);

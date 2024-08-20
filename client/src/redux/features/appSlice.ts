@@ -10,6 +10,7 @@ const initialState = {
   isSideBarOpen: false,
   headerTitle: '',
   theme: getThemeFromLocalStorage(),
+  isModalOpen: false,
 };
 
 const appSlice = createSlice({
@@ -33,10 +34,16 @@ const appSlice = createSlice({
     },
     addHeaderTitle: (state, action) => {
       state.headerTitle = action.payload;
-    }
+    },
+    openModal: (state) => {
+      state.isModalOpen = true;
+    },
+    closeModal: (state) => {
+      state.isModalOpen = false;
+    },
   },
 });
 
-export const { closeSidebar, openSidebar, toggleExpanded, addHeaderTitle, toggleTheme} = appSlice.actions;
+export const { closeSidebar, openSidebar, toggleExpanded, addHeaderTitle, toggleTheme, openModal, closeModal} = appSlice.actions;
 
 export default appSlice.reducer;

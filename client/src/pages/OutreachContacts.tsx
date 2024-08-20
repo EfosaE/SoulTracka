@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useDeleteContactByIDMutation,
   useGetAllContactsQuery,
 } from '../redux/api/outreachApiSlice';
 import {
   CellContext,
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -16,11 +15,26 @@ import { TableFooter, TableHeader } from '../components/TableUI';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import SkeletonLoader from '../components/SkeletonLoader';
+import TableComponent from '../components/TableComponent';
+
+import EditContactModal from '../components/EditContactModal';
+
 
 const OutreachContacts = () => {
   const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [deleteContact] = useDeleteContactByIDMutation();
 
+  // to target the Edit Modal
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  const openModal = () => {
+    modalRef.current?.showModal();
+  };
+
+  const closeModal = () => {
+    modalRef.current?.close();
+  };
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
     pageSize: 10, //default page size
@@ -28,6 +42,7 @@ const OutreachContacts = () => {
   // Set up state to hold the table data
   const [data, setData] = useState<Contact[]>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+
   console.log('outreach', outreachContact);
   // Effect to update the state when server data is fetched
   useEffect(() => {
@@ -47,10 +62,15 @@ const OutreachContacts = () => {
   };
 
   const handleEdit = (contact: Contact) => {
+    console.log('contact:', selectedContact);
     console.log('Edit contact:', contact);
+    setSelectedContact(contact);
+    openModal();
     // Implement the edit logic here, e.g., open a modal with the contact details
   };
-
+  useEffect(() => {
+    console.log('selectedContact updated:', selectedContact);
+  }, [selectedContact]);
   // Extend the columns with action handlers, I did this so I can use my mutation on the table action
   const actionColumns = columns.map((column) => {
     if (column.id === 'actions') {
@@ -92,7 +112,10 @@ const OutreachContacts = () => {
 
   if (isLoading) {
     //Skeleton loader
-    <SkeletonLoader />;
+    <>
+      <div>loading...</div>
+      <SkeletonLoader />;
+    </>;
   }
   return (
     <section className='w-full transition'>
@@ -101,38 +124,14 @@ const OutreachContacts = () => {
         setGlobalFilter={setGlobalFilter}
         table={table}
       />
-      <div className='overflow-scroll h-[540px]'>
-        <table className='table table-zebra text-center overflow-y-scroll'>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className='capitalize'>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <TableComponent table={table} />
+
       <TableFooter table={table} />
+      <EditContactModal
+        contact={selectedContact}
+        closeModal={closeModal}
+        ref={modalRef}
+      />
     </section>
   );
 };

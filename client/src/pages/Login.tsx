@@ -18,9 +18,13 @@ const Login = () => {
     console.log(formData);
     const formDataObject = Object.fromEntries(formData.entries());
     console.log(formDataObject);
+
+    // .unwrap() does the same thing as response.json()
     try {
       const response = await login(formDataObject).unwrap();
+
       console.log('Login successful:', response);
+
       if (response.status === 'success') {
         const user = response.user;
         const accessToken = response.accessToken;
@@ -38,7 +42,7 @@ const Login = () => {
       ) {
         setError((typedError.data as { message: string }).message);
       } else {
-        console.log('An unexpected error occurred');
+        console.log('an unexpected error occurred');
       }
     }
   };

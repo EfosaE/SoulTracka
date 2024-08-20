@@ -8,13 +8,16 @@ import { setUser } from '../redux/features/authSlice';
 const PrivateLayout = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((store: RootState) => store.auth);
+
   const { data, isLoading } = useGetProfileQuery('', { skip: !token });
 
   console.log(token);
+  
 
   useEffect(() => {
     console.log('privatelayout', data);
     dispatch(setUser(data?.user));
+
   }, [data, dispatch]);
 
   const location = useLocation();

@@ -7,13 +7,16 @@ export const outreachApiSlice = apiSlice.injectEndpoints({
     getAllContacts: builder.query({
       query: () => '/outreach-contacts',
       providesTags: ['Contact'], // Use the defined tag type
-      transformResponse: (response: { status: string; data:{length:number, contacts:Contact []}}) => {
+      transformResponse: (response: {
+        status: string;
+        data: { length: number; contacts: Contact[] };
+      }) => {
         // Sort the contacts by 'createdAt' in descending order
-            const contacts = response.data.contacts;
-         return contacts.sort(
-           (a: Contact, b: Contact) =>
-             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-         );
+        const contacts = response.data.contacts;
+        return contacts.sort(
+          (a: Contact, b: Contact) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       },
     }),
     addContact: builder.mutation({
@@ -23,6 +26,14 @@ export const outreachApiSlice = apiSlice.injectEndpoints({
         body: contact,
       }),
       invalidatesTags: ['Contact'], // Invalidate the 'Contact' tag on successful delete
+    }),
+    updateContact: builder.mutation({
+      query: (contact) => ({
+        url: `/outreach-contacts/${contact.id}`,
+        method: 'PATCH',
+        body: contact,
+      }),
+      invalidatesTags: ['Contact'], // Invalidate the 'Contact' tag on successful update
     }),
     deleteContactByID: builder.mutation<void, number>({
       query: (id) => ({
@@ -36,4 +47,4 @@ export const outreachApiSlice = apiSlice.injectEndpoints({
 
 
 
-export const { useGetAllContactsQuery, useDeleteContactByIDMutation, useAddContactMutation } = outreachApiSlice;
+export const { useGetAllContactsQuery, useDeleteContactByIDMutation, useAddContactMutation, useUpdateContactMutation } = outreachApiSlice;
