@@ -26,7 +26,7 @@ const PrivateLayout = () => {
   console.log(isLoading)
   console.log(isSuccess);
 
-  if (isSuccess) {
+  if (token) {
     dispatch(setUser(data?.user));
     return <Outlet />;
   }

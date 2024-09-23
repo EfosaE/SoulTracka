@@ -25,7 +25,7 @@ export const signUp = asyncHandler(
         username,
         password,
         email,
-        groupName
+        groupName,
       },
     });
 
@@ -62,7 +62,7 @@ export const login = asyncHandler(
       user: {
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
       accessToken,
     });
@@ -88,9 +88,8 @@ export const refresh = async (
     console.log(decoded);
     if (decoded && typeof decoded !== 'string') {
       const accessToken = createAccessToken(decoded.id);
-      res.json({accessToken})
+      res.json({ accessToken });
     }
-    
   } catch (error) {
     if (error) {
       return next(new AppError('Login expired, please login again', 403));
@@ -104,5 +103,5 @@ export const logOut = async (req: Request, res: Response) => {
     httpOnly: true,
     // expires: new Date(Date.now() + 1),
   });
-    res.sendStatus(204);
+  res.sendStatus(204);
 };

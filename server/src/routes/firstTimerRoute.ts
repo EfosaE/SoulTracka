@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { getAllFirstTimers } from '../controllers/firstTimerController';
+import { createFirstTimer, getAllFirstTimers } from '../controllers/firstTimerController';
 import validateJWT from '../middlewares/validateJWT';
 
 
 const firstTimerRouter = Router();
 
-firstTimerRouter.route('/').get(validateJWT, getAllFirstTimers)
+firstTimerRouter.use(validateJWT);
+
+firstTimerRouter.route('/').get(getAllFirstTimers).post(createFirstTimer)
 export default firstTimerRouter;

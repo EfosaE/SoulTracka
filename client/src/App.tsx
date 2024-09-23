@@ -5,7 +5,7 @@ import PrivateLayout from './components/PrivateLayout';
 import Home from './pages/Home';
 import CommonUi from './components/CommonUi';
 import OutreachContacts from './pages/OutreachContacts';
-import FirstTimer from './pages/FirstTimer';
+import FirstTimer from './pages/FirstTimers';
 import Reports from './pages/Reports';
 import Messages from './pages/Messages';
 import Settings from './pages/Settings';

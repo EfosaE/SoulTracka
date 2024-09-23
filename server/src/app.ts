@@ -29,7 +29,7 @@ app.use(cors({
   },
   credentials: true,
 }));
-// Define the rate limiter middleware
+// Defined a rate limiter middleware
 const limiter = rateLimit({
   max: 50, // Limit each IP to 10 requests per `window` (here, per hour)
   windowMs:  60 * 60 * 1000, // 1 hour window

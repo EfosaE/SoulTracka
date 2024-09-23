@@ -52,7 +52,7 @@ const baseQueryWithReauth = async (
       api,
       extraOptions
     )) as { data: RefreshTokenResponse };
-    console.log('accessToken', refreshedAccessToken);
+    console.log('refreshedAccessToken:',refreshedAccessToken);
     if (refreshedAccessToken?.data) {
       api.dispatch(setToken(refreshedAccessToken.data.accessToken));
       const response = (await baseQuery(
@@ -76,7 +76,7 @@ const baseQueryWithReauth = async (
 // Create the API slice
 export const apiSlice = createApi({
   reducerPath: 'api',
-  tagTypes: ['Contact'], // Define the tag types here
+  tagTypes: ['Contact', 'FirstTimer'], // Define the tag types here
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
 });

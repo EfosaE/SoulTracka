@@ -1,37 +1,32 @@
 import { forwardRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAddContactMutation } from '../redux/api/outreachApiSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { useAddFirstTimerMutation } from '../../redux/api/firstTimerApiSlice';
 
 type ModalProps = {
   closeModal: () => void;
 };
 
-const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
+const CreateFirstTimerModal = forwardRef<HTMLDialogElement, ModalProps>(
   ({ closeModal }, ref) => {
-    const [addContact, { isLoading}] = useAddContactMutation();
-      const [error, setError] = useState<string | null>(null);
-    
+    const [addfirstTimer, { isLoading }] = useAddFirstTimerMutation();
+    const [error, setError] = useState<string | null>(null);
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const formDataObject = Object.fromEntries(formData.entries());
 
-      // Get the current time from the user's machine
-      const now = new Date();
-      const currentTime = now.toTimeString().split(' ')[0];
-      // Append the current time to the date
-      if (formDataObject.outreachDateTime) {
-        formDataObject.outreachDateTime = `${formDataObject.outreachDateTime} ${currentTime}`;
-      }
-      // Convert 'contacted' to boolean
+     
+    
+      // Convert 'isStudent' to boolean
       const parsedFormData = {
         ...formDataObject,
-        contacted: formDataObject.contacted === 'true',
+        isStudent: formDataObject.isStudent === 'true',
       };
       console.log(parsedFormData);
       try {
-        const response = await addContact(parsedFormData).unwrap();
+        const response = await addfirstTimer(parsedFormData).unwrap();
         console.log(response);
         toast.success('Contact added succesfully');
         closeModal();
@@ -48,13 +43,19 @@ const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
         }
       }
     }
-    
+
     return (
       <dialog id='' className='modal' ref={ref}>
         <div className='modal-box'>
           <div className='flex justify-between items-center'>
             <h3 className='text-lg capitalize'> create a new contact</h3>
-            <button className='btn btn-neutral' onClick={()=>{closeModal()}}>Close</button>
+            <button
+              className='btn btn-neutral'
+              onClick={() => {
+                closeModal();
+              }}>
+              Close
+            </button>
           </div>
 
           <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
@@ -69,53 +70,43 @@ const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
               />
             </div>
             <div className='flex flex-col  gap-2'>
-              <label htmlFor='outreachLocation'>Outreach Location:</label>
+              <label htmlFor='address'>Address:</label>
               <input
                 type='text'
-                name='outreachLocation'
+                name='address'
                 placeholder='Type here'
                 className='border border-slate-400 bg-transparent py-2 px-4 rounded-lg w-full text-sm'
                 required
               />
             </div>
             <div className='flex flex-col gap-2'>
-              <label htmlFor='phoneNumber'>Phone Number</label>
+              <label htmlFor='phoneNumber'>Phone Number:</label>
               <input
                 type='tel'
                 id='phone'
-                placeholder='0708436782'
+                placeholder='Enter a phone number'
                 minLength={11}
-                maxLength={13}
+                maxLength={11}
                 pattern='\d{1,11}'
-                title='Enter a phone number in the format: 0234567890'
+                title='Enter a phone number in the format: 07084367821'
                 name='phoneNumber'
                 className='border border-slate-400 bg-transparent py-2 px-4 rounded-lg w-full text-sm'
                 required
               />
             </div>
             <div className='flex flex-col gap-2'>
-              <label htmlFor='outreachDateTime'>Outreach Date:</label>
-              <input
-                type='date'
-                name='outreachDateTime'
-                className='border border-slate-400 bg-transparent py-2 px-4 rounded-lg w-full text-sm'
-                required
-              />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='groupName'>Group Name:</label>
+              <label htmlFor='occupation'>Occupation:</label>
               <input
                 type='text'
-                name='groupName'
-                placeholder='Type here'
+                name='occupation'
                 className='border border-slate-400 bg-transparent py-2 px-4 rounded-lg w-full text-sm'
                 required
               />
             </div>
-            <label htmlFor='contacted' className='items-center flex gap-2'>
-              <span>Contacted: </span>
 
-              <select className='select' name='contacted'>
+            <label htmlFor='isStudent' className='items-center flex gap-2'>
+              <span>isStudent: </span>
+              <select className='select' name='isStudent'>
                 <option value='true'>true</option>
                 <option value='false'>false</option>
               </select>
@@ -131,6 +122,4 @@ const CreateContactModal = forwardRef<HTMLDialogElement, ModalProps>(
   }
 );
 
-export default CreateContactModal;
-
-
+export default CreateFirstTimerModal;

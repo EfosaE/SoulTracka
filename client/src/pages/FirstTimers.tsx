@@ -1,28 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  useDeleteContactByIDMutation,
-  useGetAllContactsQuery,
-} from '../redux/api/outreachApiSlice';
-import {
   CellContext,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {  Contact, contactColumns } from '../utils/columnsDefs';
-import { TableFooter, TableHeader } from '../components/ContactTableUI';
+import { FirstTimer, firstTimerColumns } from '../utils/columnsDefs';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import SkeletonLoader from '../components/SkeletonLoader';
-import TableComponent from '../components/ContactTableComponent';
 
-import EditContactModal from '../components/modals/EditContactModal';
+import { useGetAllFirstTimersQuery } from '../redux/api/firstTimerApiSlice';
+import { TableFooter, TableHeader } from '../components/FirstTimerTableUi';
+import FirstTimerTableComponent from '../components/FirstTimerTableComponent';
 
-const OutreachContacts = () => {
-  const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-  const [deleteContact] = useDeleteContactByIDMutation();
+const FirstTimers = () => {
+  // The response is transformed take note.
+  const { data: firstTimers, isLoading } = useGetAllFirstTimersQuery('');
 
   // to target the Edit Modal
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -39,41 +34,37 @@ const OutreachContacts = () => {
     pageSize: 10, //default page size
   });
   // Set up state to hold the table data
-  const [data, setData] = useState<Contact[]>([]);
+  const [data, setData] = useState<FirstTimer[]>([]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  console.log('outreach', outreachContact);
+  console.log(firstTimers);
   // Effect to update the state when server data is fetched
   useEffect(() => {
-    if (outreachContact) {
-      // Ensure a stable reference by using setState
-      setData(outreachContact);
-    }
-  }, [outreachContact]);
+    if (firstTimers) setData(firstTimers);
+    console.log('from useeffect', data);
+  }, [data, firstTimers]);
 
-  const handleDelete = async (contactId: number) => {
+  const handleDelete = async (firstTimerId: number) => {
+    console.log(firstTimerId);
     try {
-      await deleteContact(contactId).unwrap();
       console.log('Contact deleted successfully');
     } catch (error) {
       console.error('Failed to delete the contact:', error);
     }
   };
 
-  const handleEdit = (contact: Contact) => {
-    console.log('contact:', selectedContact);
+  const handleEdit = (contact: FirstTimer) => {
     console.log('Edit contact:', contact);
-    setSelectedContact(contact);
+
     openModal();
-    // Implement the edit logic here, e.g., open a modal with the contact details
   };
 
   // Extend the columns with action handlers, I did this so I can use my mutation on the table action
-  const actionColumns = contactColumns.map((column) => {
+  const actionColumns = firstTimerColumns.map((column) => {
     if (column.id === 'actions') {
       return {
         ...column,
-        cell: (info: CellContext<Contact, unknown>) => (
+        cell: (info: CellContext<FirstTimer, unknown>) => (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button onClick={() => handleEdit(info.row.original)}>
               <FaEdit className='text-secondary text-lg' />
@@ -114,16 +105,21 @@ const OutreachContacts = () => {
         setGlobalFilter={setGlobalFilter}
         table={table}
       />
-      {isLoading ? <SkeletonLoader /> : <TableComponent table={table} />}
+
+      {isLoading ? (
+        <SkeletonLoader />
+      ) : (
+        <FirstTimerTableComponent table={table} />
+      )}
 
       <TableFooter table={table} />
-      <EditContactModal
+      {/* <EditFirstTimersModal
         contact={selectedContact}
         closeModal={closeModal}
         ref={modalRef}
-      />
+      /> */}
     </section>
   );
 };
 
-export default OutreachContacts;
+export default FirstTimers;

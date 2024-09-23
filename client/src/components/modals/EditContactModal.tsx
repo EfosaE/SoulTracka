@@ -1,8 +1,8 @@
 import { forwardRef, useEffect, useState } from 'react';
 
-import { useUpdateContactMutation } from '../redux/api/outreachApiSlice';
+import { useUpdateContactMutation } from '../../redux/api/outreachApiSlice';
 
-import { Contact } from '../utils/columnsDefs';
+import { Contact } from '../../utils/columnsDefs';
 import { toast } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
@@ -52,7 +52,6 @@ const EditContactModal = forwardRef<HTMLDialogElement, ModalProps>(
     };
 
     useEffect(() => {
-
       if (contact) {
         const formattedDate = contact.outreachDateTime
           ? contact.outreachDateTime.split('T')[0]
@@ -63,25 +62,23 @@ const EditContactModal = forwardRef<HTMLDialogElement, ModalProps>(
           ...contact,
           outreachDateTime: formattedDate,
         });
-
       }
     }, [contact]);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
-      let parsedOutreachDateTime
+      let parsedOutreachDateTime;
 
       if (formData) {
-         parsedOutreachDateTime = new Date(
-           formData.outreachDateTime
-         ).toISOString();
+        parsedOutreachDateTime = new Date(
+          formData.outreachDateTime
+        ).toISOString();
       }
 
       // Update the updatedAt field with the current date and time
       const updatedFormData = {
         ...formData,
-        updatedAt: new Date().toISOString(), 
-        outreachDateTime: parsedOutreachDateTime
+        outreachDateTime: parsedOutreachDateTime,
       };
 
       console.log(updatedFormData);

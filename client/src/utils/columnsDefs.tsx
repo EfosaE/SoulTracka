@@ -1,6 +1,5 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-
 export type Contact = {
   contacted: boolean;
   createdAt: string; // ISO date string
@@ -12,32 +11,42 @@ export type Contact = {
   phoneNumber: string;
   updatedAt: string; // ISO date string
 };
+export type FirstTimer = {
+  isStudent: boolean;
+  createdAt: string; // ISO date string
+  id: number;
+  name: string;
+  address?: string;
+  occupation?: string;
+  phoneNumber: string;
+  updatedAt: string; // ISO date string
+};
+const contactColumnHelper = createColumnHelper<Contact>();
+const firstTimerColumnHelper = createColumnHelper<FirstTimer>();
 
-const columnHelper = createColumnHelper<Contact>();
-
-export const columns = [
-  columnHelper.accessor((_row, index) => index + 1, {
+export const contactColumns = [
+  contactColumnHelper.accessor((_row, index) => index + 1, {
     id: 'serialNumber',
     header: 'S/N',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('name', {
+  contactColumnHelper.accessor('name', {
     header: 'Name',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('phoneNumber', {
+  contactColumnHelper.accessor('phoneNumber', {
     header: 'Phone Number',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('contacted', {
+  contactColumnHelper.accessor('contacted', {
     header: 'Contacted',
     cell: (info) => info.getValue().toString(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('createdAt', {
+  contactColumnHelper.accessor('createdAt', {
     header: 'Date Created',
     cell: (info) => {
       const dateString = info.getValue(); // Get the date string
@@ -57,7 +66,7 @@ export const columns = [
     },
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('updatedAt', {
+  contactColumnHelper.accessor('updatedAt', {
     header: 'Date Updated',
     cell: (info) => {
       const dateString = info.getValue(); // Get the date string
@@ -77,7 +86,7 @@ export const columns = [
     },
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('outreachDateTime', {
+  contactColumnHelper.accessor('outreachDateTime', {
     header: 'Outreach Date',
     cell: (info) => {
       const dateString = info.getValue(); // Get the date string
@@ -97,43 +106,101 @@ export const columns = [
     },
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor('outreachLocation', {
+  contactColumnHelper.accessor('outreachLocation', {
     header: 'Outreach Location',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
 
-  columnHelper.accessor('groupName', {
+  contactColumnHelper.accessor('groupName', {
     header: 'Group Name',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
   // Action column
-  columnHelper.display({
+  contactColumnHelper.display({
     id: 'actions',
     header: 'Actions',
-    // cell: (info) => (
-    //   <div style={{ display: 'flex', gap: '0.5rem' }}>
-    //     <button onClick={() => console.log(info.row.original)}>
-    //       <FaEdit className='text-secondary text-lg' />
-    //     </button>
-    //     <button onClick={() => console.log(info.row.original.id)}>
-    //       <RiDeleteBinLine className='text-error text-lg' />
-
-    //     </button>
-    //   </div>
-    // ),
   }),
 ];
 
+export const firstTimerColumns = [
+  firstTimerColumnHelper.accessor((_row, index) => index + 1, {
+    id: 'serialNumber',
+    header: 'S/N',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  }),
+  firstTimerColumnHelper.accessor('name', {
+    header: 'Name',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  }),
+  firstTimerColumnHelper.accessor('phoneNumber', {
+    header: 'Phone Number',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  }),
+  firstTimerColumnHelper.accessor('isStudent', {
+    header: 'isStudent',
+    cell: (info) => info.getValue().toString(),
+    footer: (info) => info.column.id,
+  }),
+  firstTimerColumnHelper.accessor('createdAt', {
+    header: 'Date Created',
+    cell: (info) => {
+      const dateString = info.getValue(); // Get the date string
+      const date = new Date(dateString); // Create a Date object
 
-// Example handlers
-// const handleEdit = (contact) => {
-//   console.log('Edit contact:', contact);
-//   // Implement the edit logic here, e.g., open a modal with the contact details
-// };
+      // Format the date without time zone
+      const formattedDate = date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
 
-// const handleDelete = (contactId) => {
-//   console.log('Delete contact with ID:', contactId);
-//   // Implement the delete logic here, e.g., show a confirmation dialog and delete the contact
-// };
+      return formattedDate; // Return the formatted date
+    },
+    footer: (info) => info.column.id,
+  }),
+  firstTimerColumnHelper.accessor('updatedAt', {
+    header: 'Date Updated',
+    cell: (info) => {
+      const dateString = info.getValue(); // Get the date string
+      const date = new Date(dateString); // Create a Date object
+
+      // Format the date without time zone
+      const formattedDate = date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+
+      return formattedDate; // Return the formatted date
+    },
+    footer: (info) => info.column.id,
+  }),
+
+  firstTimerColumnHelper.accessor('address', {
+    header: 'Address',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  }),
+
+  firstTimerColumnHelper.accessor('occupation', {
+    header: 'Occupation',
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  }),
+  // Action column
+  firstTimerColumnHelper.display({
+    id: 'actions',
+    header: 'Actions',
+  }),
+];

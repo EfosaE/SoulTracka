@@ -1,19 +1,25 @@
 import { IoSearch } from 'react-icons/io5';
-import CreateContactModal from './CreateContactModal';
+
 import { useRef } from 'react';
 import { Table } from '@tanstack/react-table';
-import { Contact } from '../utils/columnsDefs';
+import { FirstTimer } from '../utils/columnsDefs';
+import CreateFirstTimerModal from './modals/CreateFirstTimerModal';
 
 interface HeaderProps {
   globalFilter: string;
   setGlobalFilter: (filterValue: string) => void;
-  table: Table<Contact>;
+  table: Table<FirstTimer>;
 }
 
 type TableFooterProps = {
-  table: Table<Contact>;
+  table: Table<FirstTimer>;
 };
-export const TableHeader = ({ globalFilter, setGlobalFilter, table  }: HeaderProps) => {
+
+export const TableHeader = ({
+  globalFilter,
+  setGlobalFilter,
+  table,
+}: HeaderProps) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {
@@ -54,9 +60,9 @@ export const TableHeader = ({ globalFilter, setGlobalFilter, table  }: HeaderPro
       </label>
 
       <button className='btn btn-primary text-white' onClick={openModal}>
-        + Add New Contact
+        + Add New FirstTimer
       </button>
-      <CreateContactModal ref={modalRef} closeModal={closeModal} />
+      <CreateFirstTimerModal ref={modalRef} closeModal={closeModal} />
     </div>
   );
 };

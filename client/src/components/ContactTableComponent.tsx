@@ -8,7 +8,7 @@ interface TableProps {
 
 // forward Ref lets me pass ref as a prop
 
-const TableComponent = ({ table}: TableProps) => {
+const ContactTableComponent = ({ table}: TableProps) => {
   return (
     <div className='overflow-scroll h-[540px]'>
       <table className='table table-zebra text-center overflow-y-scroll'>
@@ -45,4 +45,4 @@ const TableComponent = ({ table}: TableProps) => {
   );
 };
 
-export default TableComponent;
+export default ContactTableComponent;
