@@ -11,41 +11,57 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    const formData = new FormData(e.currentTarget);
-    console.log(formData);
-    const formDataObject = Object.fromEntries(formData.entries());
-    console.log(formDataObject);
 
-    // .unwrap() does the same thing as response.json()
-    try {
-      const response = await login(formDataObject).unwrap();
 
-      console.log('Login successful:', response);
+ const handleLogin = async (
+   e?: React.FormEvent<HTMLFormElement>,
+   demoCredentials?: { email: string; password: string }
+ ) => {
+   if (e) {
+     e.preventDefault();
+   }
+   setError(null);
 
-      if (response.status === 'success') {
-        const user = response.user;
-        const accessToken = response.accessToken;
-        dispatch(setUser(user));
-        dispatch(setToken(accessToken));
+   // If demo credentials are provided, use them; otherwise, use the form data
+   let formDataObject;
+   if (demoCredentials) {
+     formDataObject = demoCredentials;
+   } else if (e) {
+     const formData = new FormData(e.currentTarget);
+     formDataObject = Object.fromEntries(formData.entries());
+   }
 
-        navigate('/');
-      }
-    } catch (error) {
-      const typedError = error as FetchBaseQueryError;
-      if (
-        typedError.data &&
-        typeof typedError.data === 'object' &&
-        'message' in typedError.data
-      ) {
-        setError((typedError.data as { message: string }).message);
-      } else {
-        console.log('an unexpected error occurred');
-      }
-    }
-  };
+   console.log(formDataObject);
+
+   try {
+     const response = await login(formDataObject).unwrap();
+     console.log('Login successful:', response);
+
+     if (response.status === 'success') {
+       const user = response.user;
+       const accessToken = response.accessToken;
+      //  dispatch(setUser(user));
+       // Check for Demo Users
+       dispatch(setUser({ ...user, isDemo: user.email === 'demo@tracka.com' }));
+
+       dispatch(setToken(accessToken));
+
+       navigate('/');
+     }
+   } catch (error) {
+     const typedError = error as FetchBaseQueryError;
+     if (
+       typedError.data &&
+       typeof typedError.data === 'object' &&
+       'message' in typedError.data
+     ) {
+       setError((typedError.data as { message: string }).message);
+     } else {
+       console.log('An unexpected error occurred');
+     }
+   }
+ };
+
   return (
     <section className='h-screen flex items-center justify-center '>
       <Form
@@ -68,6 +84,8 @@ const Login = () => {
             <input
               type='password'
               name='password'
+              placeholder='Enter your password'
+              autoComplete='current-password'
               className='input-primary w-full  input '
               required
             />
@@ -76,11 +94,19 @@ const Login = () => {
         {error && <div style={{ color: 'red' }}>{error}</div>}
         <SubmitBtn text={'Submit'} disabled={isLoading} />
 
-        <p className='text-sm libre mt-2'>
+        <p className='text-sm libre my-4'>
           No account yet?{' '}
-          <Link to='/signup' className='text-primary'>
+          <Link to='/signup' className='text-primary hover:opacity-70'>
             Sign Up
           </Link>
+          <a
+            className='block text-primary mt-2 cursor-pointer hover:opacity-70'
+            onClick={()=>{handleLogin(undefined, {
+              email: 'demo@tracka.com',
+              password: 'demo1234',
+            });}}>
+            Sign In as a Demo User
+          </a>
         </p>
       </Form>
     </section>

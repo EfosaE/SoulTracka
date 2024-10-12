@@ -28,3 +28,52 @@ export const createFirstTimer = asyncHandler(
      });
   }
 );
+export const deleteFirstTimerByID = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = Number(req.params.id);
+
+    // Attempt to delete the contact
+    const firstTimer = await prisma.firstTimer.delete({
+      where: {
+        id,
+      },
+    });
+
+    // If the contact doesn't exist, it will throw an error, but you can handle it more gracefully
+    if (!firstTimer) {
+      return next(new AppError('No contact found with this ID', 404));
+    }
+
+    return res.sendStatus(204)// Sends a 204 No Content response
+  }
+);
+
+export const updateFirstTimer = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = Number(req.params.id);
+    const updates = { ...req.body };
+    const {
+      name,
+      address,
+      phoneNumber,
+      occupation,
+      isStudent
+    } = updates;
+    const firstTimer = await prisma.firstTimer.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        address,
+        phoneNumber,
+        occupation,
+        isStudent,
+      },
+    });
+    return res.status(200).json({
+      status: 'success',
+      firstTimer,
+    });
+  }
+);

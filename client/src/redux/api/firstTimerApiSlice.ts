@@ -28,8 +28,23 @@ export const firstTimerApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['FirstTimer'], // Invalidate the 'Contact' tag on successful delete
     }),
+    updateFirstTimer: builder.mutation({
+      query: (firstTimer) => ({
+        url: `/first-timers/${firstTimer.id}`,
+        method: 'PATCH',
+        body: firstTimer,
+      }),
+      invalidatesTags: ['FirstTimer'], // Invalidate the 'Contact' tag on successful update
+    }),
+    deleteContactByID: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/outreach-contacts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['FirstTimer'], // Invalidate the 'Contact' tag on successful delete
+    }),
   }),
 });
 
-export const { useGetAllFirstTimersQuery, useAddFirstTimerMutation } =
+export const { useGetAllFirstTimersQuery, useAddFirstTimerMutation, useUpdateFirstTimerMutation } =
   firstTimerApiSlice;

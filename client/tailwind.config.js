@@ -19,6 +19,6 @@ export default {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ['emerald', 'night'],
+    themes: ['emerald', 'night', 'cyberpunk'],
   },
 };

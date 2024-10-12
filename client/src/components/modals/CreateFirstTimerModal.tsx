@@ -76,7 +76,6 @@ const CreateFirstTimerModal = forwardRef<HTMLDialogElement, ModalProps>(
                 name='address'
                 placeholder='Type here'
                 className='border border-slate-400 bg-transparent py-2 px-4 rounded-lg w-full text-sm'
-                required
               />
             </div>
             <div className='flex flex-col gap-2'>

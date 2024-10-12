@@ -9,7 +9,6 @@ interface TableProps {
 
 
 const FirstTimerTableComponent = ({ table }: TableProps) => {
-    console.log(table)
   return (
     <div className='overflow-scroll h-[540px]'>
       <table className='table table-zebra text-center overflow-y-scroll'>

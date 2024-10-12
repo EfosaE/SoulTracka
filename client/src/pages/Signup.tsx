@@ -7,10 +7,9 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 const Signup = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const [signup, { isLoading, isError }] = useSignUpMutation();
+  const [signup, { isLoading }] = useSignUpMutation();
 
-  console.log('loading', isLoading);
-  console.log(isError);
+ 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
@@ -81,6 +80,7 @@ const Signup = () => {
             <input
               type='email'
               name='email'
+              autoComplete='email'
               placeholder='enter your email'
               className='input-primary w-full  input '
               required
@@ -93,6 +93,7 @@ const Signup = () => {
               name='password'
               placeholder='enter your password'
               className='input-primary w-full  input'
+              autoComplete='new-password' // This is key
               required
             />
           </div>

@@ -61,8 +61,6 @@ const OutreachContacts = () => {
   };
 
   const handleEdit = (contact: Contact) => {
-    console.log('contact:', selectedContact);
-    console.log('Edit contact:', contact);
     setSelectedContact(contact);
     openModal();
     // Implement the edit logic here, e.g., open a modal with the contact details

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const getTokenFromLocalStorage = () => {
   return localStorage.getItem('token') || null;
@@ -7,7 +7,9 @@ const getTokenFromLocalStorage = () => {
 interface User {
   username: string;
   email: string;
+  isDemo?: boolean; // Add this property to track if the user is a demo user
 }
+
 
 export interface AuthState {
   user: User | null;
@@ -23,19 +25,18 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      const user = action.payload;
-      state.user = user;
+    setUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload; // Now typed correctly as 'User'
     },
-    setToken: (state, action) => {
+    setToken: (state, action: PayloadAction<string>) => {
       const accessToken = action.payload;
       state.token = accessToken;
-      localStorage.setItem('token', accessToken)
+      localStorage.setItem('token', accessToken);
     },
     logOut: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem('token')
+      localStorage.removeItem('token');
     },
   },
 });

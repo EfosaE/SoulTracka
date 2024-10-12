@@ -14,10 +14,13 @@ import SkeletonLoader from '../components/SkeletonLoader';
 import { useGetAllFirstTimersQuery } from '../redux/api/firstTimerApiSlice';
 import { TableFooter, TableHeader } from '../components/FirstTimerTableUi';
 import FirstTimerTableComponent from '../components/FirstTimerTableComponent';
+import EditFirstTimersModal from '../components/modals/EditFirstTimersModal';
 
 const FirstTimers = () => {
   // The response is transformed take note.
   const { data: firstTimers, isLoading } = useGetAllFirstTimersQuery('');
+  const [selectedFirstTimer, setSelectedFirstTimer] =
+    useState<FirstTimer | null>(null);
 
   // to target the Edit Modal
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -53,9 +56,9 @@ const FirstTimers = () => {
     }
   };
 
-  const handleEdit = (contact: FirstTimer) => {
-    console.log('Edit contact:', contact);
-
+  const handleEdit = (firstTimer: FirstTimer) => {
+    console.log('Edit firstTimer:', firstTimer);
+    setSelectedFirstTimer(firstTimer);
     openModal();
   };
 
@@ -113,11 +116,11 @@ const FirstTimers = () => {
       )}
 
       <TableFooter table={table} />
-      {/* <EditFirstTimersModal
-        contact={selectedContact}
+      <EditFirstTimersModal
+        firstTimer={selectedFirstTimer}
         closeModal={closeModal}
         ref={modalRef}
-      /> */}
+      />
     </section>
   );
 };
