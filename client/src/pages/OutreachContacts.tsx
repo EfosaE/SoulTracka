@@ -18,8 +18,13 @@ import SkeletonLoader from '../components/SkeletonLoader';
 import TableComponent from '../components/ContactTableComponent';
 
 import EditContactModal from '../components/modals/EditContactModal';
+import { toast } from 'react-toastify';
+import { isDemoUser } from '../utils/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const OutreachContacts = () => {
+    const { user } = useSelector((store: RootState) => store.auth);
   const { data: outreachContact, isLoading } = useGetAllContactsQuery('');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [deleteContact] = useDeleteContactByIDMutation();
@@ -52,6 +57,10 @@ const OutreachContacts = () => {
   }, [outreachContact]);
 
   const handleDelete = async (contactId: number) => {
+    if (isDemoUser(user!)) {
+      toast.info('This action is not for demo users');
+      return;
+    }
     try {
       await deleteContact(contactId).unwrap();
       console.log('Contact deleted successfully');
@@ -61,6 +70,10 @@ const OutreachContacts = () => {
   };
 
   const handleEdit = (contact: Contact) => {
+    if (isDemoUser(user!)) {
+      toast.info('This action is not for demo users');
+      return;
+    }
     setSelectedContact(contact);
     openModal();
     // Implement the edit logic here, e.g., open a modal with the contact details

@@ -4,7 +4,7 @@ const getTokenFromLocalStorage = () => {
   return localStorage.getItem('token') || null;
 };
 
-interface User {
+export interface User {
   username: string;
   email: string;
   isDemo?: boolean; // Add this property to track if the user is a demo user

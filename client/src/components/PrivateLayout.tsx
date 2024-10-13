@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useGetProfileQuery } from '../redux/api/authApiSlice';
 import { setUser } from '../redux/features/authSlice';
+import { useEffect } from 'react';
 
 const PrivateLayout = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,18 @@ const PrivateLayout = () => {
   console.log(token);
   console.log(user);
 
+  // Use useEffect to prevent infinite re-rendering
+  useEffect(() => {
+    if (token && data) {
+      dispatch(
+        setUser({
+          ...data.user,
+          isDemo: data.user.email === 'demo@tracka.com',
+        })
+      );
+    }
+  }, [token, data, dispatch]); // Run effect when token or data changes
+
   if (isLoading) {
     return (
       <div className='h-screen w-full flex items-center justify-center'>
@@ -23,17 +36,14 @@ const PrivateLayout = () => {
       </div>
     ); // Or a more sophisticated loading indicator
   }
-  console.log(isLoading)
+  console.log(isLoading);
   console.log(isSuccess);
 
-  if (token) {
-    dispatch(setUser(data?.user));
+  if (token && isSuccess && data) {
     return <Outlet />;
   }
 
-    return <Navigate to='/login' state={{ from: location }} replace />;
- 
-
+  return <Navigate to='/login' state={{ from: location }} replace />;
 };
 
 export default PrivateLayout;

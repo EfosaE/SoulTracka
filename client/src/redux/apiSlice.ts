@@ -6,23 +6,23 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 import { RootState } from './store';
-import { logOut, setToken, setUser } from './features/authSlice';
+import { logOut, setToken, setUser, User } from './features/authSlice';
 
 interface RefreshTokenResponse {
   accessToken: string;
 }
 interface GetUserResponse {
   status?: string;
-  user: unknown;
+  user: User;
 }
 
 let baseURL = import.meta.env.VITE_BASE_SERVER_URL;
 
 if (import.meta.env.VITE_ENVIRONMENT === 'development') {
-   baseURL = import.meta.env.VITE_BASE_LOCAL_SERVER_URL;
-} 
+  baseURL = import.meta.env.VITE_BASE_LOCAL_SERVER_URL;
+}
 // Define the base query function
-console.log(baseURL)
+console.log(baseURL);
 const baseQuery = fetchBaseQuery({
   baseUrl: `${baseURL}/api/v1`,
   credentials: 'include',
@@ -52,7 +52,7 @@ const baseQueryWithReauth = async (
       api,
       extraOptions
     )) as { data: RefreshTokenResponse };
-    console.log('refreshedAccessToken:',refreshedAccessToken);
+    console.log('refreshedAccessToken:', refreshedAccessToken);
     if (refreshedAccessToken?.data) {
       api.dispatch(setToken(refreshedAccessToken.data.accessToken));
       const response = (await baseQuery(
@@ -63,7 +63,16 @@ const baseQueryWithReauth = async (
         data: GetUserResponse;
       };
       console.log('user', response.data.user);
-      api.dispatch(setUser(response.data.user));
+      console.log('userDemo', {
+        ...response.data.user,
+        isDemo: response.data.user.email === 'demo@tracka.com',
+      });
+      api.dispatch(
+        setUser({
+          ...response.data.user,
+          isDemo: response.data.user.email === 'demo@tracka.com',
+        })
+      );
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

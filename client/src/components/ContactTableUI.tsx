@@ -3,6 +3,10 @@ import CreateContactModal from './modals/CreateContactModal';
 import { useRef } from 'react';
 import { Table } from '@tanstack/react-table';
 import { Contact } from '../utils/columnsDefs';
+import { isDemoUser } from '../utils/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { toast } from 'react-toastify';
 
 interface HeaderProps {
   globalFilter: string;
@@ -18,9 +22,16 @@ export const TableHeader = ({
   setGlobalFilter,
   table,
 }: HeaderProps) => {
+  const { user } = useSelector((store: RootState) => store.auth);
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {
+    if (isDemoUser(user!)) {
+      console.log(user);
+      toast.info('This action is not for demo users');
+      return;
+    }
+
     modalRef.current?.showModal();
   };
 

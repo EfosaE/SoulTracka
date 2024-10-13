@@ -15,8 +15,13 @@ import { useGetAllFirstTimersQuery } from '../redux/api/firstTimerApiSlice';
 import { TableFooter, TableHeader } from '../components/FirstTimerTableUi';
 import FirstTimerTableComponent from '../components/FirstTimerTableComponent';
 import EditFirstTimersModal from '../components/modals/EditFirstTimersModal';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { isDemoUser } from '../utils/utils';
+import { RootState } from '../redux/store';
 
 const FirstTimers = () => {
+    const { user } = useSelector((store: RootState) => store.auth);
   // The response is transformed take note.
   const { data: firstTimers, isLoading } = useGetAllFirstTimersQuery('');
   const [selectedFirstTimer, setSelectedFirstTimer] =
@@ -48,6 +53,10 @@ const FirstTimers = () => {
   }, [data, firstTimers]);
 
   const handleDelete = async (firstTimerId: number) => {
+     if (isDemoUser(user!)) {
+       toast.info('This action is not for demo users');
+       return;
+     }
     console.log(firstTimerId);
     try {
       console.log('Contact deleted successfully');
@@ -57,6 +66,10 @@ const FirstTimers = () => {
   };
 
   const handleEdit = (firstTimer: FirstTimer) => {
+     if (isDemoUser(user!)) {
+       toast.info('This action is not for demo users');
+       return;
+     }
     console.log('Edit firstTimer:', firstTimer);
     setSelectedFirstTimer(firstTimer);
     openModal();
