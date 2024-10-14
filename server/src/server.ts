@@ -22,12 +22,4 @@ app.listen(port, () => {
   // Log a message when the server is successfully running
   console.log(`Server is running on http://localhost:${port}`);
   main()
-    .then(async () => {
-      // Any additional startup logic here if needed
-    })
-    .catch(async (e) => {
-      console.error(e);
-      await prisma.$disconnect();
-      process.exit(1);
-    });
 });

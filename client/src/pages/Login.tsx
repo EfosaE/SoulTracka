@@ -1,18 +1,20 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../redux/api/authApiSlice';
 import { setUser, setToken } from '../redux/features/authSlice';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import SubmitBtn from '../components/SubmitBtn';
 import { useState } from 'react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { FetchBaseQueryError} from '@reduxjs/toolkit/query/react';
+import { RootState } from '../redux/store';
 
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
+const { user } = useSelector((store: RootState) => store.auth);
+  console.log('user on load', user)
+  
  const handleLogin = async (
    e?: React.FormEvent<HTMLFormElement>,
    demoCredentials?: { email: string; password: string }

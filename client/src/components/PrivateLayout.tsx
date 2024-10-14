@@ -19,7 +19,8 @@ const PrivateLayout = () => {
 
   // Use useEffect to prevent infinite re-rendering
   useEffect(() => {
-    if (token && data) {
+    if (data && !user) {
+      
       dispatch(
         setUser({
           ...data.user,
@@ -27,7 +28,7 @@ const PrivateLayout = () => {
         })
       );
     }
-  }, [token, data, dispatch]); // Run effect when token or data changes
+  }, [token, dispatch, user, data]); // Run effect when token or data changes
 
   if (isLoading) {
     return (
@@ -36,10 +37,10 @@ const PrivateLayout = () => {
       </div>
     ); // Or a more sophisticated loading indicator
   }
-  console.log(isLoading);
-  console.log(isSuccess);
+  // console.log(isLoading);
+  // console.log(isSuccess);
 
-  if (token && isSuccess && data) {
+  if (token && user || token && data) {
     return <Outlet />;
   }
 
