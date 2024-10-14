@@ -10,7 +10,7 @@ const PrivateLayout = () => {
   const location = useLocation();
   const { token, user } = useSelector((store: RootState) => store.auth);
 
-  const { data, isLoading, isSuccess } = useGetProfileQuery('', {
+  const { data, isLoading } = useGetProfileQuery('', {
     skip: !token,
   });
 
