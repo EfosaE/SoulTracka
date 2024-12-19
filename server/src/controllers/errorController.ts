@@ -24,7 +24,7 @@ const handlePrismaError = (err: any) => {
       // handling all other errors
       return new AppError(`Something went wrong: ${err.message}`, 500);
   }
-};
+}
 
 const sendErrorDev = (err: any, req: Request, res: Response) => {
   if (req.originalUrl.startsWith('/api')) {

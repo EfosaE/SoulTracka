@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run watch-ts\" \"nodemon dist/server.js\"",
     "watch-ts": "tsc -w",
+    "docker": "docker run -v $(pwd):/scripts -i grafana/k6 run /scripts/tests/api-test.js",
     "migrate": "npx prisma migrate dev",
     "build": "tsc"
   },

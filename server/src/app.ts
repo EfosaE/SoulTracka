@@ -29,12 +29,14 @@ app.use(cors({
   },
   credentials: true,
 }));
+
 // Defined a rate limiter middleware
 const limiter = rateLimit({
-  max: 50, // Limit each IP to 10 requests per `window` (here, per hour)
+  max: 5000, // Limit each IP to 10 requests per `window` (here, per hour)
   windowMs:  60 * 60 * 1000, // 1 hour window
   message: 'Too many requests, please try again later.', // Message sent when limit is reached
 });
+
 // Apply the rate limiter to all requests starting with /api/
 app.use('/api', limiter);
 app.use(express.json());

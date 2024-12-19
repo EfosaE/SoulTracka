@@ -1,4 +1,4 @@
-import { useLocation, Navigate, Outlet } from 'react-router-dom';
+import { useLocation, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useGetProfileQuery } from '../redux/api/authApiSlice';
@@ -6,6 +6,7 @@ import { setUser } from '../redux/features/authSlice';
 import { useEffect } from 'react';
 
 const PrivateLayout = () => {
+    const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const { token, user } = useSelector((store: RootState) => store.auth);
@@ -29,6 +30,16 @@ const PrivateLayout = () => {
       );
     }
   }, [token, dispatch, user, data]); // Run effect when token or data changes
+
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        if (isLoading) {
+          navigate('/login'); // Redirect to login if loading takes more than 10 seconds
+        }
+      }, 10000); // 10 seconds
+
+      return () => clearTimeout(timeout); // Clear timeout when the component is unmounted or the loading state changes
+    }, [isLoading, navigate]);
 
   if (isLoading) {
     return (
