@@ -7,6 +7,7 @@ import userRouter from './routes/userRoute';
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import rateLimit from 'express-rate-limit';
+import { checkDatabaseHealth } from './utils/healthCheck';
 
 // Create an Express application
 const app = express();
@@ -43,6 +44,29 @@ app.use(express.json());
 
 // Use cookie parser middleware
 app.use(cookieParser());
+
+// Health endpoint
+app.get('/health', async (req, res) => {
+  const dbHealth = await checkDatabaseHealth();
+
+  if (dbHealth.healthy) {
+    res.status(200).json({
+      status: 'Healthy',
+      services: {
+        database: 'Healthy',
+        server: 'Healthy',
+      },
+    });
+  } else {
+    res.status(500).json({
+      status: 'Unhealthy',
+      services: {
+        database: `Unhealthy: ${dbHealth.reason}`,
+        server: 'Unhealthy (due to database)',
+      },
+    });
+  }
+});
 
 // Define a route for the root path ('/')
 app.get('/', (req, res) => {
