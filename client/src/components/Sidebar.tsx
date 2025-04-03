@@ -58,7 +58,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`flex flex-col max-xl:w-fit  md:relative bg-base-100 absolute inset-0 z-50 px-[26px] shadow-lg  py-[32px] mr-2 h-screen overflow-y-auto overscroll-contain ${
+      className={`flex flex-col md:w-fit xl:w-1/5   md:relative bg-base-100 absolute inset-0 z-50 px-[26px] shadow-lg  py-[32px] mr-2 h-screen overflow-y-auto overscroll-contain ${
         isExpanded ? "w-1/5" : "w-fit"
       } transition  ${
         isSideBarOpen
@@ -66,16 +66,17 @@ const Sidebar = () => {
           : " -translate-x-full md:translate-x-0"
       }`}
       ref={sideNavRef}>
-          {/* <h3 className="hidden max-xl:block text-center">ST</h3> */}
+      {/* <h3 className="hidden max-xl:block text-center">ST</h3> */}
       <div className="flex justify-between items-center">
         <div>
-          <h3
-            className={`overflow-hidden text-2xl md:text-3xl libre text-center font-bold text-primary transition`}>
+          <h3 className="overflow-hidden text-2xl md:text-3xl libre text-center font-bold text-primary transition block md:hidden xl:block">
+            Soul Tracka
+          </h3>
+          <h3 className="overflow-hidden text-2xl md:text-3xl libre text-center font-bold text-primary transition hidden md:block">
             ST
           </h3>
         </div>
 
-      
         {/* only show this in mobile */}
         <RxCross2
           className="md:hidden text-2xl"
@@ -89,7 +90,7 @@ const Sidebar = () => {
             isExpanded ? "" : "rotate-180"
           }`}
           onClick={handleToggle}>
-          <FaAngleDoubleLeft className="size-6 text-green-800"/>
+          <FaAngleDoubleLeft className="size-6 text-green-800" />
         </div>
       </div>
 
@@ -101,7 +102,7 @@ const Sidebar = () => {
             return (
               <li
                 key={name}
-                className={`flex items-center transition-all  py-[10px] px-4 max-xl:w-fit ${
+                className={`flex items-center transition-all  py-[10px] px-4 md:w-fit xl:w-full ${
                   location.pathname === url && "bg-primary rounded-lg"
                 } ${isExpanded ? "w-full" : "w-fit"}`}
                 onClick={() => {
@@ -111,7 +112,7 @@ const Sidebar = () => {
                   <div>{icon}</div>
 
                   <div
-                    className={`capitalize font-medium overflow-hidden max-xl:size-0 ${
+                    className={`capitalize font-medium overflow-hidden md:w-0 xl:w-fit ${
                       isExpanded ? "w-fit ml-2 " : "w-0 h-0"
                     } `}>
                     {name}
@@ -121,17 +122,17 @@ const Sidebar = () => {
             );
           })}
         </ul>
-        <div className="w-full justify-center">
+        <div className="w-full ">
           <hr className="bg-[#EBEBEB] mt-[82px] mb-7" />
-          <button type="button" className="flex py-[10px] px-4 ">
-            <HiOutlineArrowLeftOnRectangle className="size-8 inline" />
-            <div
-              className={`overflow-hidden transition-all max-xl:size-0 ${
+          <div className="flex items-center py-[10px] px-4">
+            <HiOutlineArrowLeftOnRectangle className="size-8 md:size-12" />
+            <p
+              className={`overflow-hidden transition-all md:w-0 xl:w-fit ${
                 isExpanded ? "w-fit ml-2" : "w-0 m-0"
               }`}>
               Sign Out
-            </div>
-          </button>
+            </p>
+          </div>
           <hr className="bg-[#EBEBEB] mt-[89px] mb-5" />
         </div>
       </div>
