@@ -7,7 +7,7 @@ import {
 
 import { RootState } from './store';
 import { logOut, setToken, setUser, User } from './features/authSlice';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 interface RefreshTokenResponse {
   accessToken: string;
@@ -44,24 +44,24 @@ const baseQueryWithReauth = async (
   api: BaseQueryApi,
   extraOptions: object
 ) => {
-  const healthCheckUrl = `${baseURL}/health`;
-  // Ensure health check runs only once
-  if (!baseQueryWithReauth.healthChecked) {
-    console.log('Checking server health...');
-    try {
-      const response = await fetch(healthCheckUrl);
-      if (!response.ok) {
-        toast.error('Server is unavailable. Please try again later.')
-        throw new Error(`Health check failed with status: ${response.status}`);
+  // const healthCheckUrl = `${baseURL}/health`;
+  // // Ensure health check runs only once
+  // if (!baseQueryWithReauth.healthChecked) {
+  //   console.log('Checking server health...');
+  //   try {
+  //     const response = await fetch(healthCheckUrl);
+  //     if (!response.ok) {
+  //       toast.error('Server is unavailable. Please try again later.')
+  //       throw new Error(`Health check failed with status: ${response.status}`);
        
-      }
-      const healthData = await response.json();
-      console.log('Server health check passed:', healthData);
-      baseQueryWithReauth.healthChecked = true; // Mark health check as completed
-    } catch (error) {
-      console.error('Health check failed:', error);
-    }
-  }
+  //     }
+  //     const healthData = await response.json();
+  //     console.log('Server health check passed:', healthData);
+  //     baseQueryWithReauth.healthChecked = true; // Mark health check as completed
+  //   } catch (error) {
+  //     console.error('Health check failed:', error);
+  //   }
+  // }
   let result = await baseQuery(args, api, extraOptions);
   console.log('result for no error', result);
 

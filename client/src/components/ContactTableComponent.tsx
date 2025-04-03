@@ -10,7 +10,7 @@ interface TableProps {
 
 const ContactTableComponent = ({ table}: TableProps) => {
   return (
-    <div className='overflow-scroll h-[540px]'>
+    <div className='overflow-scroll'>
       <table className='table table-zebra text-center overflow-y-scroll'>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
